@@ -1,9 +1,9 @@
 github : https://github.com/ku1248/ESL_HW2
 
-General description or introduction of the problem and your solution：<br>
-&emsp;This homework required us to connect the Gaussian blur and testbench modules through TLM bus. In Lab 4 we have practiced how to implement sobel filter with TLM bus. Since the overall TLM bus architecture is the same, we have to change the SobelFilter to GaussianFilter in order to perform Gaussian blur to the image.
-
-Implementation details (data structure, flows and algorithms) :
+General description or introduction of the problem and your solution ：<br>
+&emsp;This homework required us to connect the Gaussian blur and testbench modules through TLM bus. In Lab 4 we have practiced how to implement the connection between sobel filter and testbench through TLM bus. Since the overall TLM bus architecture is the same, we have to change the SobelFilter to GaussianFilter in order to perform Gaussian blur to the image.<br>
+<br>
+Implementation details (data structure, flows and algorithms) :<br>
   Since we have to send and receive data in row-based fashion. I create buffers in Testbench to save the image pixel data for rows. And the buffer size I use is 3 * 256 for R, G, and B. The reason why it is 3 * 256 is that 3 is the number of rows required to do one row of Gaussian blur and 256 is the number of image width. I will receive the pixels of first two rows of original image and send them into buffer with 256 cycles each row. It is because we only need two rows of pixels to get the result of Gaussian blur for first row. Since we have the pixel data of two rows, writing them in order into FIFO can do Gaussian blur correctly. And then while doing the calculation of first row, I send the third row of image data to buffer preparing for next row calculation. For the rest of the image, I first send the pixel data needed for each row to do Gaussian blur into FIFOs first in Testbench. And after all the data are sent in correct order into FIFOs, I send the pixel data of next row into buffer in 256 cycles, replacing the pixel data of the row that we don't need anymore. One point to notice is that because we replace the row that we don't need in buffer, so the pixel data in buffer will not always in order. So I write some conditional statement to decide how to send data to FIFO in correct order.
 
 Additional features of your design and models :
