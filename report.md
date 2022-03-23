@@ -4,7 +4,7 @@ General description or introduction of the problem and your solution ：<br>
 &emsp;This homework required us to connect the Gaussian blur and testbench modules through TLM bus. In Lab 4 we have practiced how to implement the connection between sobel filter and testbench through TLM bus. Since the overall TLM bus architecture is the same, we have to change the SobelFilter to GaussianFilter in order to perform Gaussian blur to the image.<br>
 <br>
 Implementation details (data structure, flows and algorithms) :<br>
-&emsp;We first implement a bus with one initiator and one target socket. The target socket of TLM bus is connected to the initiator socket on testbench. The initiator socket on testbench is connected to target socket t_skt[0] and t_skt[0] is the first target socket on the TLM bus.
+&emsp;We first implement a bus with one initiator and one target socket. The target socket of TLM bus is connected to the initiator socket on testbench. The initiator socket on testbench is connected to target socket t_skt[0] and t_skt[0] is the first target socket on the TLM bus. And the initiator socket i_skt[0] on the bus is connected to GaussianFilter, also, i_skt[0] is the first initiator on the bus. By setDecode function, we can decode the address given to the bus and 
 
 Additional features of your design and models :
   I changed the sobel filter in Lab 2 into Gaussian blur filter. Since the result of Gaussian blur filter is not grey scale. I added some new FIFOs to transfer the result of Gaussian blur for R, G, and B. And also, I used row buffer to save row pixels to prevent sending or receiving the same data repeatly.
